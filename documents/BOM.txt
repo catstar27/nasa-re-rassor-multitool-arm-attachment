@@ -1,0 +1,16 @@
+BOM:
+
+Motors x8 ($14.99/per): https://www.amazon.com/STEPPERONLINE-Stepper-Bipolar-Connector-compatible/dp/B00PNEQKC0
+Metal x2 ($14.99/per): https://www.amazon.com/Aluminum-Thickness-General-Crafting-lndustry/dp/B0C495R7JH?th=1
+Arduino x3 ($15.99/per): https://www.amazon.com/EC-Buying-Development-ATMEGA2560-Compatible/dp/B0BXDNF6Z6
+Filament x4 ($15.99/per): https://www.amazon.com/Printer-Filament-1-75mm-Printng-Material/dp/B082WW77WD
+EPMs x6 ($27.17/per): https://apwcompany.com/eml20mm-12/
+Misc. Electronics:
+
+    MOSFETs x2 ($8.49/per): https://www.amazon.com/Anmbest-High-Power-Adjustment-Electronic-Brightness/dp/B07NWD8W26?th=1
+    Signal wire x1 ($12.09): https://www.amazon.com/Fermerry-Stranded-Electric-Tinned-Copper/dp/B089CQHRDT?th=1
+    Power wire x1 ($16.09): https://www.amazon.com/TUOFENG-18-Stranded-Insulated-Automotive/dp/B07G744V5Z?th=1
+    Screw set x1 ($18.99): https://www.amazon.com/Kadrick-Assortment-M2-M3-M4/dp/B0CQJZCC9T?th=1
+    Heat set inserts x1 ($9.98): https://www.amazon.com/M2-M2-5-M3-Threaded-Inserts/dp/B0FH4JQ3VB
+    USB-C connectors x1 ($7.49): https://www.amazon.com/ANMBEST-Connector-Receptacle-Adapter-Support/dp/B091CRLJM2/?th=1
+    Jumper wires x1 ($3.99): https://www.amazon.com/California-JOS-Breadboard-Optional-Multicolored/dp/B0BRTJQGS6?th=1
