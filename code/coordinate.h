@@ -3,8 +3,8 @@
 
 class Coordinate{
   public:
-    int x;
-    int y;
-    int z;
+    float x = 0;
+    float y = 0;
+    float z = 0;
 };
 #endif
