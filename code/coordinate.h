@@ -7,5 +7,6 @@ class Coordinate{
     float y = 0;
     float z = 0;
     bool operator!=(Coordinate);
+    bool operator==(Coordinate);
 };
 #endif
