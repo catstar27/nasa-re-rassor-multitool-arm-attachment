@@ -3,9 +3,9 @@
 
 class Degrees{
   public:
-    double swivel_degree;
-    double shoulder_degree;
-    double elbow_degree;
-    double wrist_degree;
+    double swivel_degree = 0.0;
+    double shoulder_degree = 0.0;
+    double elbow_degree = 0.0;
+    double wrist_degree = 0.0;
 };
 #endif
