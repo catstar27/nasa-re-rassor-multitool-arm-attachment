@@ -22,9 +22,11 @@
 #define EPM_ARM_PWM 16
 #define EPM_TOOL_PWM 17
 
+#define NUM_PINS 18
+
 class VoltageData{
   private:
-    float* pin_voltages;
+    float pin_voltages[NUM_PINS] = {0};
   public:
     void update_voltage(int, float);
 };

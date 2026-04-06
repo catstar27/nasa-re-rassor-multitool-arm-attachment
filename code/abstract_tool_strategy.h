@@ -4,6 +4,7 @@
 
 class AbstractToolStrategy{
   public:
-    void execute(ExecutionData);
+    void execute(ExecutionData*);
+    void switch_tool(ExecutionData*, Tool*, Coordinate);
 };
 #endif
