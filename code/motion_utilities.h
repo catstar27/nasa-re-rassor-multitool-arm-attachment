@@ -8,8 +8,8 @@
 class MotionUtilities{
   private:
     Coordinate current_position = Coordinate();
-    float shoulder_to_elbow_len = 5; // Placeholder until measurements are made and distance units decided
-    float elbow_to_wrist_len = 5; // Placeholder until measurements are made and distance units decided
+    float shoulder_to_elbow_len = 10; // Placeholder until measurements are made and distance units decided
+    float elbow_to_wrist_len = 10; // Placeholder until measurements are made and distance units decided
   public:
     Coordinate get_position();
     void move_toward(Coordinate);
