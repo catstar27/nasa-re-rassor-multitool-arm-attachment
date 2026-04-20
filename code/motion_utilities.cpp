@@ -5,9 +5,14 @@
 #include <Arduino.h>
 
 Coordinate MotionUtilities::get_position(){
-  return current_position;
+  return Coordinate();
 }
+
 void MotionUtilities::move_toward(Coordinate destination){
+  Degrees target_angles = inverse_kinematics(destination);
+  shoulder_motor->rotate_motor(target_angles.shoulder_degree);
+  elbow_motor->rotate_motor(target_angles.elbow_degree);
+  wrist_motor->rotate_motor(target_angles.wrist_degree);
   return;
 }
 

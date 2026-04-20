@@ -3,13 +3,13 @@
 #include "voltage_data.h"
 #include "motion_utilities.h"
 #include "tool.h"
+#include "tool_storage.h"
 
 class ExecutionData{
-  private:
-    Tool* current_tool;
   public:
-    VoltageData* voltage_data;
-    MotionUtilities* motion_utilities;
-    Tool** avilable_tools;
+    Tool* current_tool;
+    VoltageData* voltage_data = new VoltageData();
+    MotionUtilities* motion_utilities = new MotionUtilities();
+    ToolStorage* tool_storage = new ToolStorage();
 };
 #endif
