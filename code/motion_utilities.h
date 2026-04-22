@@ -2,16 +2,12 @@
 #define MOTION_UTILITIES_H
 #include "coordinate.h"
 #include "degrees.h"
-#include "motor.h"
 
-#define PI 3.14159
+#define PI 3.141592653589
 
 class MotionUtilities{
   private:
-    StepperMotor* shoulder_motor = new StepperMotor(4, 5, 2, 3);
-    StepperMotor* elbow_motor = new StepperMotor(6, 7, 2, 3);
-    StepperMotor* wrist_motor = new StepperMotor(8, 9, 2, 3);
-    StepperMotor* tool_motor = new StepperMotor(10, 11, 2, 3);
+    Coordinate current_position = Coordinate();
     float shoulder_to_elbow_len = 10; // Placeholder until measurements are made and distance units decided
     float elbow_to_wrist_len = 10; // Placeholder until measurements are made and distance units decided
   public:

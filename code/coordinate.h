@@ -3,12 +3,10 @@
 
 class Coordinate{
   public:
-    double x = 0;
-    double y = 0;
-    double z = 0;
+    float x = 0;
+    float y = 0;
+    float z = 0;
     bool operator!=(Coordinate);
     bool operator==(Coordinate);
-    Coordinate();
-    Coordinate(double, double, double);
 };
 #endif

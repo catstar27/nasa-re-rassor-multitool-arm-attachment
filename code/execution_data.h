@@ -1,15 +1,15 @@
 #ifndef EXECUTION_DATA_H
 #define EXECUTION_DATA_H
+#include "voltage_data.h"
 #include "motion_utilities.h"
 #include "tool.h"
-#include "tool_storage.h"
-#include <Arduino.h>
 
 class ExecutionData{
-  public:
+  private:
     Tool* current_tool;
-    MotionUtilities* motion_utilities = new MotionUtilities();
-    ToolStorage* tool_storage = new ToolStorage();
-    void switch_tool(String);
+  public:
+    VoltageData* voltage_data;
+    MotionUtilities* motion_utilities;
+    Tool** avilable_tools;
 };
 #endif
