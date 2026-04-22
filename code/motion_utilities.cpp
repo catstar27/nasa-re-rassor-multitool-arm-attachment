@@ -21,9 +21,9 @@ void MotionUtilities::move_toward(Coordinate destination, double approach_angle)
 Degrees MotionUtilities::inverse_kinematics(Coordinate target_pos, double approach_angle){
   Degrees deg = Degrees();
 
-  double x = target.x;
-  double y = target.y - wrist_to_tool_len * sin(approach_angle);
-  double z = target.z;
+  double x = target_pos.x;
+  double y = target_pos.y - wrist_to_tool_len * sin(approach_angle);
+  double z = target_pos.z;
 
   double distance_squared_xz = x*x + z*z;
   double distance_xz = sqrt(distance_squared_xz) - cos(approach_angle); //Finding the distance away from the robot arm.
