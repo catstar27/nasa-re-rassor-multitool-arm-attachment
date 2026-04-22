@@ -54,14 +54,15 @@ void CommandProcessor::process_command(String command, int num_args, String* arg
 }
 
 void CommandProcessor::move_to(int num_args, String* args){
-  if(num_args != 3) Serial.println(F("move_to requires 3 arguments: x, y, and z coordinates"));
+  if(num_args != 4) Serial.println(F("move_to requires 3 arguments: x, y, and z coordinates, and phi approach angle"));
   else{
     double x = atof(args[0].c_str());
     double y = atof(args[1].c_str());
     double z = atof(args[2].c_str());
+    double phi = atof(args[3].c_str());
 
     Coordinate* target_pos = new Coordinate(x, y, z);
-    Degrees arm_degrees = execution_data->motion_utilities->inverse_kinematics(*target_pos);
+    Degrees arm_degrees = execution_data->motion_utilities->inverse_kinematics(*target_pos, phi);
     
     Serial.print(F("Shoulder Angle: "));
     Serial.println(arm_degrees.shoulder_degree, 1);
@@ -71,7 +72,7 @@ void CommandProcessor::move_to(int num_args, String* args){
     Serial.println(arm_degrees.wrist_degree, 1);
     Serial.print(F("Swivel Angle: "));
     Serial.println(arm_degrees.swivel_degree, 1);
-    execution_data->motion_utilities->move_toward(*target_pos);
+    execution_data->motion_utilities->move_toward(*target_pos, phi);
   }
 }
 
