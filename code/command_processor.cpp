@@ -47,50 +47,62 @@ void CommandProcessor::process_command(String command, int num_args, String* arg
     Serial.println(F("Execution data uninitialized! Cannot process commands!"));
     return;
   }
-  if(command == "move_to"){
-    if(num_args < 3) Serial.println(F("move_to requires 3 arguments: x, y, and z coordinates"));
-    else{
-      double x = atof(args[0].c_str());
-      double y = atof(args[1].c_str());
-      double z = atof(args[2].c_str());
+  if(command == "move_to") move_to(num_args, args);
+  else if(command == "print_tools") print_tools(num_args, args);
+  else if(command == "switch_tool") switch_tool(num_args, args);
+  else Serial.println(F("Unknown Command"));
+}
 
-      Coordinate* target_pos = new Coordinate(x, y, z);
-      Degrees arm_degrees = execution_data->motion_utilities->inverse_kinematics(*target_pos);
-      
-      Serial.print(F("Shoulder Angle: "));
-      Serial.println(arm_degrees.shoulder_degree, 1);
-      Serial.print(F("Elbow Angle: "));
-      Serial.println(arm_degrees.elbow_degree, 1);
-      Serial.print(F("Wrist Angle: "));
-      Serial.println(arm_degrees.wrist_degree, 1);
-      Serial.print(F("Swivel Angle: "));
-      Serial.println(arm_degrees.swivel_degree, 1);
-      execution_data->motion_utilities->move_toward(*target_pos);
-    }
+void CommandProcessor::move_to(int num_args, String* args){
+  if(num_args != 3) Serial.println(F("move_to requires 3 arguments: x, y, and z coordinates"));
+  else{
+    double x = atof(args[0].c_str());
+    double y = atof(args[1].c_str());
+    double z = atof(args[2].c_str());
+
+    Coordinate* target_pos = new Coordinate(x, y, z);
+    Degrees arm_degrees = execution_data->motion_utilities->inverse_kinematics(*target_pos);
+    
+    Serial.print(F("Shoulder Angle: "));
+    Serial.println(arm_degrees.shoulder_degree, 1);
+    Serial.print(F("Elbow Angle: "));
+    Serial.println(arm_degrees.elbow_degree, 1);
+    Serial.print(F("Wrist Angle: "));
+    Serial.println(arm_degrees.wrist_degree, 1);
+    Serial.print(F("Swivel Angle: "));
+    Serial.println(arm_degrees.swivel_degree, 1);
+    execution_data->motion_utilities->move_toward(*target_pos);
   }
-  else if(command == "print_tools"){
-    if(num_args > 0) Serial.println(F("print_tools does not take any arguments!"));
-    else{
-      int num_tools = execution_data->tool_storage->get_num_tools();
-      Tool** tools = execution_data->tool_storage->get_tools();
-      for(int i = 0; i < num_tools; i++){
-        Serial.print(F("Tool: "));
-        Serial.print(tools[i]->get_name());
-        Serial.print(F("\tStored At: "));
-        if(execution_data->current_tool == tools[i]){
-          Serial.println(F("In hand"));
-        }
-        else{
-          Coordinate stored_at = tools[i]->get_storage_pos();
-          Serial.print(stored_at.x);
-          Serial.print(F("x, "));
-          Serial.print(stored_at.y);
-          Serial.print(F("y, "));
-          Serial.print(stored_at.z);
-          Serial.println(F("z"));
-        }
+}
+
+void CommandProcessor::print_tools(int num_args, String* args){
+  if(num_args > 0) Serial.println(F("print_tools does not take any arguments!"));
+  else{
+    int num_tools = execution_data->tool_storage->get_num_tools();
+    Tool** tools = execution_data->tool_storage->get_tools();
+    for (int i = 0; i < num_tools; i++) {
+      Serial.print(F("Tool: "));
+      Serial.print(tools[i]->get_name());
+      Serial.print(F("\tStored At: "));
+      if(execution_data->current_tool == tools[i]){
+        Serial.println(F("In hand"));
+      } 
+      else{
+        Coordinate stored_at = tools[i]->get_storage_pos();
+        Serial.print(stored_at.x);
+        Serial.print(F("x, "));
+        Serial.print(stored_at.y);
+        Serial.print(F("y, "));
+        Serial.print(stored_at.z);
+        Serial.println(F("z"));
       }
     }
   }
-  else Serial.println(F("Unknown Command"));
+}
+
+void CommandProcessor::switch_tool(int num_args, String* args){
+  if(num_args != 1) Serial.println(F("switch_tool takes one argument, tool name!"));
+  else{
+    execution_data->switch_tool(args[0]);
+  }
 }

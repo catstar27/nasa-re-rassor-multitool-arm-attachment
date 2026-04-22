@@ -9,5 +9,8 @@ class CommandProcessor{
     String* split_string(String, char);
     void read_commands();
     void process_command(String, int, String*);
+    void move_to(int, String*);
+    void print_tools(int, String*);
+    void switch_tool(int, String*);
 };
 #endif

@@ -11,6 +11,7 @@ class ToolStorage{
     Tool** get_tools();
     void print_tools();
     int get_num_tools();
+    Tool* get_tool_from_name(String);
     ToolStorage();
 };
 
