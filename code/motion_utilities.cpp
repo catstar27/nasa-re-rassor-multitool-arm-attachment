@@ -36,7 +36,7 @@ Degrees MotionUtilities::inverse_kinematics(Coordinate target_pos, double approa
   }
 
   //the wrist is at the end point of the arm, it best turn when something else calls upon it.
-  deg.swivel_degree = atan2(z/x) * (180.0 / PI); //gets the angle for the swivel in radians, that is then converted to degrees.
+  deg.swivel_degree = atan2(z,x) * (180.0 / PI); //gets the angle for the swivel in radians, that is then converted to degrees.
   double angle2 = -acos((distance_squared_disy - shoulder_to_elbow_len*shoulder_to_elbow_len - elbow_to_wrist_len*elbow_to_wrist_len) / (2 * elbow_to_wrist_len * shoulder_to_elbow_len));
   double angle1 = atan2(y,distance_xz) - atan2((elbow_to_wrist_len * sin(angle2)),(elbow_to_wrist_len*cos(angle2) + shoulder_to_elbow_len));
   //Obtained the angles for the shoulder and elbow via inverse kinematics and elbow-down orientation.
