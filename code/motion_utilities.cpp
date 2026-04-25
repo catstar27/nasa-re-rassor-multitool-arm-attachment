@@ -20,6 +20,7 @@ void MotionUtilities::move_toward(Coordinate destination, double approach_angle)
 
 Degrees MotionUtilities::inverse_kinematics(Coordinate target_pos, double approach_angle){
   Degrees deg = Degrees(); //making the deg object as the thing we send to other functions.
+  Degrees error_deg = Degrees();
 
   //Since the target of the inverse kinematics equations will be offset by the length of the wrist, we adjust the coordinates.
   double x = target_pos.x;
@@ -33,8 +34,8 @@ Degrees MotionUtilities::inverse_kinematics(Coordinate target_pos, double approa
   double distance_disy = sqrt(distance_squared_disy); 
 
   //This checks to see if the robot can actually reach the desired coordinate.
-  if(distance_disy > shoulder_to_elbow_len + elbow_to_wrist_len){
-    printf("Error: coordinate too far");
+  if(distance_disy > shoulder_to_elbow_len + elbow_to_wrist_len + wrist_to_tool_len){
+    Serial.println(F("Error: coordinate too far"));
     return deg;
   }
 
@@ -47,5 +48,21 @@ Degrees MotionUtilities::inverse_kinematics(Coordinate target_pos, double approa
   deg.elbow_degree = angle2 * (180.0 / PI); 
   //Of course, the angles obtained are measured in radians so they get converted to degrees when placed into the storage for motor angles.
   deg.wrist_degree = approach_angle - (deg.shoulder_degree + deg.elbow_degree); //The wrists angle plus the sum of other angles equals the approach angle if we want such an angle for use.
+  
+  if(deg.shoulder_degree > 180 || deg.shoulder_degree < 0) {
+    Serial.println(F("Error: Shoulder cannot reach :)"));
+    return error_deg;
+  }
+
+  if(deg.elbow_degree > 0 || deg.elbow_degree < -150) {
+    Serial.println(F("Error: Elbow cannot reach :)"));
+    return error_deg;
+  }
+
+  if(deg.wrist_degree > 90 || deg.wrist_degree < -90) {
+    Serial.println(F("Error: Wrist cannot reach :)"));
+    return error_deg;
+  }
+  
   return deg;
 }
