@@ -13,8 +13,26 @@ MotionUtilities::MotionUtilities() {
   tool_motor.attach(26, 500, 2500);
 }
 
-Coordinate MotionUtilities::get_position(){
-  return Coordinate();
+bool MotionUtilities::target_reached(int tolerance, Servo motor, int target_angle){
+  int num_iterations = 0;
+  while(motor.read() != target_angle){
+    delayMicroseconds(1000);
+    num_iterations++;
+    if(num_iterations > tolerance) return false;
+  }
+  return true;
+}
+
+void MotionUtilities::check_angles_reached(int swivel, int shoulder, int elbow, int wrist){
+  bool status = target_reached(5000, swivel_motor, swivel);
+  if(!status) Serial.println("Error moving swivel: Could not reach target angle!");
+  status = target_reached(5000, shoulder_motor, shoulder);
+  if(!status) Serial.println("Error moving shoulder: Could not reach target angle!");
+  status = target_reached(5000, elbow_motor, elbow);
+  if(!status) Serial.println("Error moving elbow: Could not reach target angle!");
+  status = target_reached(5000, wrist_motor, wrist);
+  if(!status) Serial.println("Error moving wrist: Could not reach target angle!");
+  return;
 }
 
 void MotionUtilities::rotate_angles(double swivel, double shoulder, double elbow, double wrist) {
@@ -22,25 +40,31 @@ void MotionUtilities::rotate_angles(double swivel, double shoulder, double elbow
   shoulder_motor.write(int(shoulder));
   elbow_motor.write(int(elbow));
   wrist_motor.write(int(wrist));
+  check_angles_reached(int(swivel), int(shoulder), int(elbow), int(wrist));
   return;
 }
 
 void MotionUtilities::move_toward(Coordinate destination, double approach_angle){
   Degrees target_angles = inverse_kinematics(destination, approach_angle);
   int current_swivel_angle = swivel_motor.read();
+  int target_swivel_angle = int(target_angles.swivel_degree) - current_swivel_angle;
   int current_shoulder_angle = shoulder_motor.read();
+  int target_shoulder_angle = int(target_angles.shoulder_degree) - current_shoulder_angle;
   int current_elbow_angle = elbow_motor.read();
+  int target_elbow_angle = int(target_angles.elbow_degree) - current_elbow_angle;
   int current_wrist_angle = wrist_motor.read();
+  int target_wrist_angle = int(target_angles.wrist_degree) - current_wrist_angle;
 
   Serial.print(F("Current Swivel Angle: ")); Serial.println(current_swivel_angle);
   Serial.print(F("Current Shoulder Angle: ")); Serial.println(current_shoulder_angle);
   Serial.print(F("Current Elbow Angle: ")); Serial.println(current_elbow_angle);
   Serial.print(F("Current Wrist Angle: ")); Serial.println(current_wrist_angle);
   
-  swivel_motor.write(int(target_angles.swivel_degree) - current_swivel_angle);
-  shoulder_motor.write(int(target_angles.shoulder_degree) - current_shoulder_angle);
-  elbow_motor.write(int(target_angles.elbow_degree) - current_elbow_angle);
-  wrist_motor.write(int(target_angles.wrist_degree) - current_wrist_angle);
+  swivel_motor.write(target_swivel_angle);
+  shoulder_motor.write(target_shoulder_angle);
+  elbow_motor.write(target_elbow_angle);
+  wrist_motor.write(target_wrist_angle);
+  check_angles_reached(target_swivel_angle, target_shoulder_angle, target_elbow_angle, target_wrist_angle);
   return;
 }
 
