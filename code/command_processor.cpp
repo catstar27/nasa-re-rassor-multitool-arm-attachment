@@ -51,6 +51,8 @@ void CommandProcessor::process_command(String command, int num_args, String* arg
   else if(command == "rotate_to") rotate_to(num_args, args);
   else if(command == "print_tools") print_tools(num_args, args);
   else if(command == "switch_tool") switch_tool(num_args, args);
+  else if(command == "print_strategies") print_strategies(num_args, args);
+  else if(command == "execute_strategy") execute_strategy(num_args, args);
   else Serial.println(F("Unknown Command"));
 }
 
@@ -126,5 +128,35 @@ void CommandProcessor::switch_tool(int num_args, String* args){
   if(num_args != 1) Serial.println(F("switch_tool takes one argument, tool name!"));
   else{
     execution_data->switch_tool(args[0]);
+  }
+}
+
+void CommandProcessor::print_strategies(int num_args, String* args){
+  if(num_args > 0) Serial.println(F("print_strategies does not take any arguments!"));
+  else{
+    int num_strategies = execution_data->strategy_storage->get_num_strategies();
+    AbstractToolStrategy** strategies = execution_data->strategy_storage->get_strategies();
+    for (int i = 0; i < num_strategies; i++) {
+      Serial.print(F("Strategy: "));
+      Serial.println(strategies[i]->name);
+    }
+  }
+}
+
+void CommandProcessor::execute_strategy(int num_args, String* args){
+  if(num_args != 9) Serial.println(F("execute_strategy takes 9 arguments: Strategy name, start x,y, and z, start angle, end x, y, and z, and end angle!"));
+  else{
+    AbstractToolStrategy* strategy = execution_data->strategy_storage->get_strategy_from_name(args[0]);
+    double x = atof(args[1].c_str());
+    double y = atof(args[2].c_str());
+    double z = atof(args[3].c_str());
+    Coordinate start_pos = Coordinate(x,y,z);
+    double start_angle = atof(args[4].c_str());
+    x = atof(args[5].c_str());
+    y = atof(args[6].c_str());
+    z = atof(args[7].c_str());
+    Coordinate end_pos = Coordinate(x,y,z);
+    double end_angle = atof(args[8].c_str());
+    strategy->execute(execution_data->motion_utilities, start_pos, start_angle, end_pos, end_angle);
   }
 }
