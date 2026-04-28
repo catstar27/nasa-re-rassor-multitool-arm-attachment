@@ -5,16 +5,42 @@
 #include "stdio.h"
 #include <Arduino.h>
 
+MotionUtilities::MotionUtilities() {
+  swivel_motor.attach(22, 500, 2500);
+  shoulder_motor.attach(23, 500, 2500);
+  elbow_motor.attach(24, 500, 2500);
+  wrist_motor.attach(25, 500, 2500);
+  tool_motor.attach(26, 500, 2500);
+}
+
 Coordinate MotionUtilities::get_position(){
   return Coordinate();
 }
 
+void MotionUtilities::rotate_angles(double swivel, double shoulder, double elbow, double wrist) {
+  swivel_motor.write(int(swivel));
+  shoulder_motor.write(int(shoulder));
+  elbow_motor.write(int(elbow));
+  wrist_motor.write(int(wrist));
+  return;
+}
+
 void MotionUtilities::move_toward(Coordinate destination, double approach_angle){
   Degrees target_angles = inverse_kinematics(destination, approach_angle);
-  shoulder_motor1->rotate_motor(target_angles.shoulder_degree);
-  shoulder_motor2->rotate_motor(-1*target_angles.shoulder_degree);
-  elbow_motor->rotate_motor(target_angles.elbow_degree);
-  wrist_motor->rotate_motor(target_angles.wrist_degree);
+  int current_swivel_angle = swivel_motor.read();
+  int current_shoulder_angle = shoulder_motor.read();
+  int current_elbow_angle = elbow_motor.read();
+  int current_wrist_angle = wrist_motor.read();
+
+  Serial.print(F("Current Swivel Angle: ")); Serial.println(current_swivel_angle);
+  Serial.print(F("Current Shoulder Angle: ")); Serial.println(current_shoulder_angle);
+  Serial.print(F("Current Elbow Angle: ")); Serial.println(current_elbow_angle);
+  Serial.print(F("Current Wrist Angle: ")); Serial.println(current_wrist_angle);
+  
+  swivel_motor.write(int(target_angles.swivel_degree) - current_swivel_angle);
+  shoulder_motor.write(int(target_angles.shoulder_degree) - current_shoulder_angle);
+  elbow_motor.write(int(target_angles.elbow_degree) - current_elbow_angle);
+  wrist_motor.write(int(target_angles.wrist_degree) - current_wrist_angle);
   return;
 }
 

@@ -1,7 +1,6 @@
 #include "SoftPWM.h"
 #include "abstract_tool_strategy.h"
 #include "command_processor.h"
-#include "motor.h"
 
 ExecutionData* execution_data = new ExecutionData();
 CommandProcessor* command_processor = new CommandProcessor();

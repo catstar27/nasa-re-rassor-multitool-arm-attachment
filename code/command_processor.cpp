@@ -48,9 +48,30 @@ void CommandProcessor::process_command(String command, int num_args, String* arg
     return;
   }
   if(command == "move_to") move_to(num_args, args);
+  else if(command == "rotate_to") rotate_to(num_args, args);
   else if(command == "print_tools") print_tools(num_args, args);
   else if(command == "switch_tool") switch_tool(num_args, args);
   else Serial.println(F("Unknown Command"));
+}
+
+void CommandProcessor::rotate_to(int num_args, String* args){
+  if(num_args != 4) Serial.println(F("rotate_to requires 4 arguments: swivel, shoulder, elbow, wrist"));
+  else{
+    double swivel = atof(args[0].c_str());
+    double shoulder = atof(args[1].c_str());
+    double elbow = atof(args[2].c_str());
+    double wrist = atof(args[3].c_str());
+    
+    Serial.print(F("Shoulder Angle: "));
+    Serial.println(shoulder, 1);
+    Serial.print(F("Elbow Angle: "));
+    Serial.println(elbow, 1);
+    Serial.print(F("Wrist Angle: "));
+    Serial.println(wrist, 1);
+    Serial.print(F("Swivel Angle: "));
+    Serial.println(swivel, 1);
+    execution_data->motion_utilities->rotate_angles(swivel, shoulder, elbow, wrist);
+  }
 }
 
 void CommandProcessor::move_to(int num_args, String* args){

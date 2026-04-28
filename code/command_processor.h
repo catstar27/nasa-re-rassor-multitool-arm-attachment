@@ -10,6 +10,8 @@ class CommandProcessor{
     void read_commands();
     void process_command(String, int, String*);
     void move_to(int, String*);
+    void rotate_to(int, String*);
+    void rotate_motor(int, String*);
     void print_tools(int, String*);
     void switch_tool(int, String*);
 };
