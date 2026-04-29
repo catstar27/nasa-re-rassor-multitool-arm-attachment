@@ -3,6 +3,7 @@
 #include "tool.h"
 #include "tool_storage.h"
 #include <Arduino.h>
+#include "magnet.h"
 
 void ExecutionData::switch_tool(String new_tool_name){
   Tool* new_tool = tool_storage->get_tool_from_name(new_tool_name);
@@ -13,11 +14,10 @@ void ExecutionData::switch_tool(String new_tool_name){
   }
   if(current_tool != NULL){
     motion_utilities->move_toward(current_tool->get_storage_pos(), 0.0);
-    // TODO: Add Magnet activation and deactivation so tool head can switch
-    Serial.println(F("WIP: Deactivate Magnet"));
+    magnet1->set_simultaneously(magnet2, false);
     current_tool = NULL;
   }
   motion_utilities->move_toward(new_tool->get_storage_pos(), 0.0);
-  Serial.println(F("WIP: Activate Magnet"));
+  magnet1->set_simultaneously(magnet2, true);
   current_tool = new_tool;
 }
